@@ -20,7 +20,7 @@ int		read_char(int fd)
 	static char		buffer[BUFFER_SIZE];
 	static ssize_t	buffer_size = 0;
 	char			c;
-	size_t			i;
+	ssize_t			i;
 
 	if (buffer_size == 0)
 	{
@@ -63,5 +63,6 @@ int		get_next_line(int fd, char **line)
 	destroy_buffer(&content);
 	if (c != '\n')
 		return (c + 1);
+	*line = result;
 	return (1);
 }

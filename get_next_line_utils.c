@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "get_next_line.h"
 
@@ -44,7 +45,7 @@ int				write_char_buffer(t_buff *buff, char c)
 	const int	index = buff->content_size / buff->buff_size;
 	t_bblock	*elem;
 
-	elem = get_or_extend_buff(buff, index);
+	elem = get_or_extend_buffer(buff, index);
 	if (elem == NULL)
 		return (0);
 	((char *)elem->data)[buff->content_size % buff->buff_size] = c;
