@@ -15,11 +15,23 @@
 
 #include "get_next_line.h"
 
+/*
+** Reads the next unsigned char from fd. This method uses an internal static
+** buffer to store the chars it reads from fd. The internal buffer size
+** is BUFFER_SIZE.
+**
+** @returns the next unsigned char from fd if any; -1 if it reaches the end of
+** file of the fd; -2 if an error occured.
+**
+** @see man read(2)
+** @see BUFFER_SIZE
+*/
+
 int		read_char(int fd)
 {
 	static char		buffer[BUFFER_SIZE];
 	static ssize_t	buffer_size = 0;
-	char			c;
+	unsigned char	c;
 	ssize_t			i;
 
 	if (buffer_size == 0)
@@ -30,7 +42,7 @@ int		read_char(int fd)
 		if (buffer_size == -1)
 			return (-2);
 	}
-	c = buffer[0];
+	c = (unsigned char)(buffer[0]);
 	i = 0;
 	--buffer_size;
 	while (i < buffer_size)
@@ -38,29 +50,31 @@ int		read_char(int fd)
 		buffer[i] = buffer[i + 1];
 		++i;
 	}
-	return (c);
+	return ((int)c);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	t_buff		content;
-	int			c;
-	char		*result;
+	t_buff	*content;
+	int		c;
+	char	*result;
 
-	init_buffer(&content);
+	content = create_buffer();
+	if (content == NULL)
+		return (-1);
 	while ((c = read_char(fd)) >= 0)
 	{
 		if (c == '\n')
 			break ;
-		if (!write_char_buffer(&content, c))
+		if (!write_char_buffer(content, c))
 		{
 			c = -2;
 			break ;
 		}
 	}
-	if ((result = merge_buffer(&content)) == NULL)
+	if ((result = merge_buffer(content)) == NULL)
 		c = -2;
-	destroy_buffer(&content);
+	destroy_buffer(content);
 	if (c != '\n')
 		return (c + 1);
 	*line = result;

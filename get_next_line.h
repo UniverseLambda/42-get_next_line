@@ -14,12 +14,12 @@
 # define GET_NEXT_LINE_H_
 
 # ifndef BUFFER_SIZE
+// #  error "NO FUCKING BUFFER_SIZE"
 #  define BUFFER_SIZE 32
 # endif
 
 typedef struct		s_bblock
 {
-	struct s_bblock	*prev;
 	struct s_bblock	*next;
 	char			data[BUFFER_SIZE];
 }					t_bblock;
@@ -33,7 +33,7 @@ typedef struct
 
 int			get_next_line(int fd, char **line);
 
-void		init_buffer(t_buff *buff);
+t_buff		*create_buffer();
 int			write_char_buffer(t_buff *buff, char c);
 char		*merge_buffer(t_buff *buff);
 void		destroy_buffer(t_buff *buff);

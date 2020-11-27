@@ -15,12 +15,18 @@
 
 #include "get_next_line.h"
 
-void			init_buffer(t_buff *buff)
+t_buff			*create_buffer()
 {
-	buff->content_size = 0;
-	buff->buff_size = BUFFER_SIZE;
-	buff->block.prev = NULL;
-	buff->block.next = NULL;
+	t_buff *buff;
+	
+	buff = malloc(sizeof(t_buff));
+	if (buff != NULL)
+	{
+		buff->content_size = 0;
+		buff->buff_size = BUFFER_SIZE;
+		buff->block.next = NULL;
+	}
+	return (buff);
 }
 
 static t_bblock	*get_or_extend_buffer(t_buff *buff, size_t index)
@@ -33,10 +39,12 @@ static t_bblock	*get_or_extend_buffer(t_buff *buff, size_t index)
 	while (previous->next != NULL && i < index)
 	{
 		previous = previous->next;
+		++i;
 	}
 	if (i == index)
 		return (previous);
 	previous->next = malloc(sizeof(t_bblock));
+	previous->next->next = NULL;
 	return (previous->next);
 }
 
@@ -60,6 +68,8 @@ char			*merge_buffer(t_buff *buff)
 	t_bblock	*block;
 	int			last_block;
 
+	if (!write_char_buffer(buff, 0))
+		return (NULL);
 	merged = malloc(buff->content_size + 1);
 	if (merged == NULL)
 		return (NULL);
@@ -92,4 +102,5 @@ void			destroy_buffer(t_buff *buff)
 		next_block = next_block->next;
 		free(tmp);
 	}
+	free(buff);
 }
