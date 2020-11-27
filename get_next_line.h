@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H_
-# define GET_NEXT_LINE_H_
+#ifndef _GET_NEXT_LINE_H
+# define _GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-// #  error "NO FUCKING BUFFER_SIZE"
 #  define BUFFER_SIZE 32
 # endif
 
@@ -31,11 +30,11 @@ typedef struct
 	t_bblock		block;
 }					t_buff;
 
-int			get_next_line(int fd, char **line);
+int					get_next_line(int fd, char **line);
 
-t_buff		*create_buffer();
-int			write_char_buffer(t_buff *buff, char c);
-char		*merge_buffer(t_buff *buff);
-void		destroy_buffer(t_buff *buff);
+t_buff				*create_buffer();
+int					write_char_buffer(t_buff *buff, char c);
+char				*merge_buffer(t_buff *buff);
+void				destroy_buffer(t_buff *buff);
 
 #endif

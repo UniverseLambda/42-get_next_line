@@ -15,10 +15,10 @@
 
 #include "get_next_line.h"
 
-t_buff			*create_buffer()
+t_buff			*create_buffer(void)
 {
 	t_buff *buff;
-	
+
 	buff = malloc(sizeof(t_buff));
 	if (buff != NULL)
 	{
@@ -31,8 +31,8 @@ t_buff			*create_buffer()
 
 static t_bblock	*get_or_extend_buffer(t_buff *buff, size_t index)
 {
-	t_bblock *previous;
-	size_t i;
+	t_bblock	*previous;
+	size_t		i;
 
 	i = 0;
 	previous = &(buff->block);
@@ -94,7 +94,7 @@ void			destroy_buffer(t_buff *buff)
 {
 	t_bblock *next_block;
 	t_bblock *tmp;
-	
+
 	next_block = buff->block.next;
 	while (next_block != NULL)
 	{
