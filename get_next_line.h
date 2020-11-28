@@ -25,8 +25,8 @@ typedef struct		s_bblock
 
 typedef struct
 {
-	int				content_size;
-	int				buff_size;
+	size_t			content_size;
+	size_t			buff_size;
 	t_bblock		block;
 }					t_buff;
 

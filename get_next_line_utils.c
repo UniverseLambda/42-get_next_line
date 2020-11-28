@@ -64,9 +64,9 @@ int				write_char_buffer(t_buff *buff, char c)
 char			*merge_buffer(t_buff *buff)
 {
 	char		*merged;
-	int			index;
+	size_t		index;
 	t_bblock	*block;
-	int			last_block;
+	size_t		last_block;
 
 	if (!write_char_buffer(buff, 0))
 		return (NULL);
