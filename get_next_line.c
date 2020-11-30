@@ -77,6 +77,7 @@ int		get_next_line(int fd, char **line)
 	destroy_buffer(content);
 	if (c == -2 || (c == -1 && *result == 0))
 		return (c + 1);
-	*line = result;
+	if (line != NULL)
+		*line = result;
 	return (1);
 }

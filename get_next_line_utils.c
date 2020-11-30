@@ -44,6 +44,8 @@ static t_bblock	*get_or_extend_buffer(t_buff *buff, size_t index)
 	if (i == index)
 		return (previous);
 	previous->next = malloc(sizeof(t_bblock));
+	if (previous->next == NULL)
+		return (NULL);
 	previous->next->next = NULL;
 	return (previous->next);
 }

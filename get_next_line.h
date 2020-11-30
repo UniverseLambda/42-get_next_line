@@ -17,7 +17,7 @@
 #  define BUFFER_SIZE 32
 # endif
 
-#include <stddef.h>
+# include <stddef.h>
 
 typedef struct		s_bblock
 {
@@ -25,7 +25,7 @@ typedef struct		s_bblock
 	char			data[BUFFER_SIZE];
 }					t_bblock;
 
-typedef struct
+typedef struct		s_buff
 {
 	size_t			content_size;
 	size_t			buff_size;
