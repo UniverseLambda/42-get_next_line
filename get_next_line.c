@@ -20,7 +20,7 @@
 ** buffer to store the chars it reads from fd. The internal buffer size
 ** is BUFFER_SIZE.
 **
-** @returns the next unsigned char from fd if any; -1 if it reaches the end of
+** @return the next unsigned char from fd if any; -1 if it reaches the end of
 ** file of the fd; -2 if an error occured.
 **
 ** @see man read(2)
@@ -75,7 +75,7 @@ int		get_next_line(int fd, char **line)
 	if ((result = merge_buffer(content)) == NULL)
 		c = -2;
 	destroy_buffer(content);
-	if (c != '\n')
+	if (c == -2 || (c == -1 && *result == 0))
 		return (c + 1);
 	*line = result;
 	return (1);
