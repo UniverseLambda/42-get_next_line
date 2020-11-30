@@ -17,6 +17,8 @@
 #  define BUFFER_SIZE 32
 # endif
 
+#include <stddef.h>
+
 typedef struct		s_bblock
 {
 	struct s_bblock	*next;
