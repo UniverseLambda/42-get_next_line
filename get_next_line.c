@@ -13,6 +13,8 @@
 #include <stddef.h>
 #include <unistd.h>
 
+#include <stdlib.h>
+
 #include "get_next_line.h"
 
 /*
@@ -34,7 +36,7 @@ int		read_char(int fd)
 	unsigned char	c;
 	ssize_t			i;
 
-	if (buffer_size == 0)
+	if (buffer_size <= 0)
 	{
 		buffer_size = read(fd, buffer, BUFFER_SIZE);
 		if (buffer_size == 0)
@@ -59,6 +61,8 @@ int		get_next_line(int fd, char **line)
 	int		c;
 	char	*result;
 
+	if (line == NULL)
+		return (-1);
 	content = create_buffer();
 	if (content == NULL)
 		return (-1);
@@ -75,9 +79,8 @@ int		get_next_line(int fd, char **line)
 	if ((result = merge_buffer(content)) == NULL)
 		c = -2;
 	destroy_buffer(content);
-	if (c == -2 || (c == -1 && *result == 0))
+	*line = result;
+	if (c == -2 || (c == -1))
 		return (c + 1);
-	if (line != NULL)
-		*line = result;
 	return (1);
 }
