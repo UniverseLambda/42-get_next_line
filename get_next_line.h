@@ -18,6 +18,7 @@
 # endif
 
 # include <stddef.h>
+# include <unistd.h>
 
 typedef struct		s_bblock
 {
@@ -31,6 +32,14 @@ typedef struct		s_buff
 	size_t			buff_size;
 	t_bblock		block;
 }					t_buff;
+
+typedef struct		s_static_buff
+{
+	char			content[BUFFER_SIZE];
+	ssize_t			index;
+	ssize_t			size;
+	int				fd;
+}					t_static_buff;
 
 int					get_next_line(int fd, char **line);
 

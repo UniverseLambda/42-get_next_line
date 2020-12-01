@@ -31,27 +31,25 @@
 
 int		read_char(int fd)
 {
-	static char		buffer[BUFFER_SIZE];
-	static ssize_t	buffer_size = 0;
-	unsigned char	c;
-	ssize_t			i;
+	static t_static_buff	buffer = {.size = 0, .fd = -1};
+	unsigned char			c;
 
-	if (buffer_size <= 0)
+	if (buffer.fd != fd)
 	{
-		buffer_size = read(fd, buffer, BUFFER_SIZE);
-		if (buffer_size == 0)
+		buffer.size = 0;
+		buffer.fd = fd;
+	}
+	if (buffer.index >= buffer.size)
+	{
+		buffer.index = 0;
+		buffer.size = read(fd, buffer.content, BUFFER_SIZE);
+		if (buffer.size == 0)
 			return (-1);
-		if (buffer_size == -1)
+		if (buffer.size == -1)
 			return (-2);
 	}
-	c = (unsigned char)(buffer[0]);
-	i = 0;
-	--buffer_size;
-	while (i < buffer_size)
-	{
-		buffer[i] = buffer[i + 1];
-		++i;
-	}
+	c = (unsigned char)(buffer.content[buffer.index]);
+	++(buffer.index);
 	return ((int)c);
 }
 
@@ -61,10 +59,9 @@ int		get_next_line(int fd, char **line)
 	int		c;
 	char	*result;
 
-	if (line == NULL)
+	if (BUFFER_SIZE == 0 || line == NULL)
 		return (-1);
-	content = create_buffer();
-	if (content == NULL)
+	if ((content = create_buffer()) == NULL)
 		return (-1);
 	while ((c = read_char(fd)) >= 0)
 	{
